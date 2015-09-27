@@ -1,10 +1,11 @@
+# encoding: utf-8
 require_relative 'empleado_controller'
 
 class EmpresaController
   def run
     loop do
       system("clear")
-      load '~/playground/views/empresa_menu_abm_view.rb'
+      load './views/empresa_menu_abm_view.rb'
       case STDIN.getch.downcase
         when 'l' then listar_empresas
         when 'a' then alta

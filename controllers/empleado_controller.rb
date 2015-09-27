@@ -3,7 +3,7 @@ class EmpleadoController
     @empresa_de_trabajo = empresa
     system("clear")
     puts "\n\t\t\t\t\t\t\tEmpresa de trabajo: #{empresa.razon_social}"
-    load '~/playground/views/abcml_empleado_menu_view.rb'
+    load './views/abcml_empleado_menu_view.rb'
     x = STDIN.getch.downcase
     until x == 'a' or x == 'b' or x == 'l' or x == 'n' or x == 'l' or x == "\177" do
       x = STDIN.getch.downcase
