@@ -18,7 +18,7 @@ puts "\t\t**                              (M) O D I F I C A R                   
 puts "\t\t**                                                                                                                      **"
 puts "\t\t**                              (L) I S T A R  T O D A S                                                                **"
 puts "\t\t**                                                                                                                      **"
-puts "\t\t**                              (S) S E L E C C I O N A R                                                               **"
+puts "\t\t**                                                                                                                      **"
 puts "\t\t**                                                                                                                      **"
 puts "\t\t**                                                                                                                      **"
 puts "\t\t**                                                                                              A T R A S (Backspace)   **"

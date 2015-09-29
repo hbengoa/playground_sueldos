@@ -19,6 +19,16 @@ class EmpresaController
     end
   end
 
+  def listar_empresas
+    system("clear")
+    printf "\t\t\t\t\tL I S T A D O    D E   E M P R E S A S\n\n\n"
+    printf "ID\tNOMBRE\t\t\t\tCUIT\t\t\tDOMICILIO\t\t\tLOCALIDAD\n\n"
+    Empresa.order(:razon_social).each do |e|
+      puts "#{e.id}\t#{e.razon_social}\t\t\t#{e.cuit}\t\t#{e.domicilio}\t\t\t#{e.localidad.nombre}"
+    end
+    gets
+  end
+
   private
 
   def alta
@@ -69,16 +79,6 @@ class EmpresaController
   end
 
   def buscar_por_razon_social
-  end
-
-  def listar_empresas
-    system("clear")
-    printf "\t\t\t\t\tL I S T A D O    D E   E M P R E S A S\n\n\n"
-    printf "ID\tNOMBRE\t\t\t\tCUIT\t\t\tDOMICILIO\t\t\tLOCALIDAD\n\n"
-    Empresa.order(:razon_social).each do |e|
-      puts "#{e.id}\t#{e.razon_social}\t\t\t#{e.cuit}\t\t#{e.domicilio}\t\t\t#{e.localidad.nombre}"
-    end
-    gets
   end
 
   def seleccionar_localidad

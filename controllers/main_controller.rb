@@ -5,6 +5,10 @@ require_relative 'concepto_controller'
 require_relative '../helpers/gui'
 
 class MainController
+  def initialize
+    @empresa_de_trabajo = Empresa.find_by(id: ultima_empresa_de_trabajo)
+  end
+
   def run
     show_welcome
     main_loop
@@ -16,15 +20,17 @@ class MainController
   def show_welcome
     system("clear")
     load './views/welcome_view.rb'
-    gets
-    system("clear")
-    load './views/main_menu_view.rb'
+    STDIN.getch
   end
 
   def main_loop
-    while (key = STDIN.getch.downcase) != GUI::BACKSPACE do
-      select_option_in_main_menu(key)
+    system("clear")
+    puts "\n\t\t\t\t\t\t\tEmpresa de trabajo: #{@empresa_de_trabajo.razon_social}"
+    load './views/main_menu_view.rb'
+    while (key = STDIN.getch.downcase) != GUI::BACKSPACE
+      seleccionar_opcion_en_main_menu(key)
       system("clear")
+      puts "\n\t\t\t\t\t\t\tEmpresa de trabajo: #{@empresa_de_trabajo.razon_social}"
       load './views/main_menu_view.rb'
     end
   end
@@ -34,7 +40,11 @@ class MainController
     puts 'Goodbye...!'
   end
 
-  def select_option_in_main_menu(x)
+  def ultima_empresa_de_trabajo
+    File.open(File.expand_path("config/ultima_empresa.txt"), &:readline).chomp
+  end
+
+  def seleccionar_opcion_en_main_menu(x)
     case x
     when "e"
       EmpresaController.new.run
@@ -43,25 +53,31 @@ class MainController
       load './views/concepto_menu_abm_view.rb'
       key = STDIN.getch.downcase
       ConceptoController.new(key)
-    when "l"
-      puts 'eligio localidad'
+    when "m"
+      EmpleadoController.new(@empresa_de_trabajo).run
+    when "s"
+      seleccionar_actual
     else
-      puts 'Opcion incorrecta!'
-      gets
+      puts 'Opcion incorrecta'
     end
   end
 
   def seleccionar_actual
     system("clear")
-    listar
+    EmpresaController.new.listar_empresas
     print "Seleccione Empresa de Trabajo: "
-    ident = gets.chomp
-    empresa_actual = Empresa.find_by(id: ident)
+    id_seleccionado = gets.chomp
+    empresa_actual = Empresa.find_by(id: id_seleccionado)
     if empresa_actual
-      EmpleadoController.new(empresa_actual)
+      actualizar_ultima_empresa_de_trabajo(id_seleccionado)
+      @empresa_de_trabajo = empresa_actual
     else
       puts "No existe empresa para ese id"
-      STDIN.getch
+      gets
     end
+  end
+
+  def actualizar_ultima_empresa_de_trabajo(id)
+    File.open(File.expand_path("config/ultima_empresa.txt"), "w") {|f| f.write(id) }
   end
 end
