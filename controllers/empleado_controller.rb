@@ -1,88 +1,68 @@
 class EmpleadoController
-  def initialize(empresa_de_trabajo)
-    @empresa_de_trabajo = empresa_de_trabajo
-  end
-
   def run
     loop do
       system("clear")
-      puts "\n\t\t\t\t\t\t\tEmpresa de trabajo: #{@empresa_de_trabajo.razon_social}"
-      load './views/abcml_empleado_menu_view.rb'
+      load './views/empleado_menu_abm_view.rb'
       case STDIN.getch.downcase
-        when 'a'                                                                                     # ALTA 
-          @nueva_alta = Empleado.new
-          puts 'A L T A   D E   N U E V O   E M P L E A D O'
-          print 'Nro de Legajo: '
-          @nueva_alta.nro_legajo = gets.chomp
-          print 'Nombre y Apellido: '
-          @nueva_alta.nombre_y_apellido = gets.chomp
-          print 'Fecha de Nacimiento: '
-          @nueva_alta.fecha_nacimiento = gets.chomp
-          print 'DNI: '
-          @nueva_alta.dni = gets.chomp
-          printf "Localidades:\n"
-          show_localidades
-          printf "\nSeleccione ID de la localidad: "
-          @nueva_alta.localidad_id = gets.chomp
-          @nueva_alta.empresa_id = empresa.id
-          puts "\nEl nro de legajo es #{@nueva_alta.nro_legajo}, el nombre es #{@nueva_alta.nombre_y_apellido}, "\
-                      "su fecha de nacimiento es #{@nueva_alta.fecha_nacimiento}, su dni es #{@nueva_alta.dni}, "\
-                      "su localidad es #{@nueva_alta.localidad.nombre}"
-          puts "Si es correcto digite 's'"
-          key = STDIN.getch.downcase
-          @nueva_alta.save if key == 's'
-        when 'b'
-          show_empleados
-          @nueva_baja = buscar_empleado
-          if @nueva_baja
-            puts "\nEl empleado se llama #{@nueva_baja.nombre_y_apellido}, su dni es #{@nueva_baja.dni}, "\
-                  "su ciudad es #{@nueva_baja.localidad.nombre} y su fecha de nac. es #{@nueva_baja.fecha_nacimiento}"\
-                  "\nPara darla de baja digite 's'" unless @nueva_baja == nil
-            key = STDIN.getch.downcase
-            @nueva_baja.destroy if key == 's'
-          else
-            puts 'Empleado inexistente'
-            key = STDIN.getch.downcase
-          end
-        when 'l'
-          show_empleados
-          print 'Seleccione legajo: '
-          numero_leg = gets.chomp
-          @empleado_de_trabajo = @empresa_de_trabajo.empleados.find_by(nro_legajo: numero_leg)
-          puts "El empleado se llama #{@empleado_de_trabajo.nombre_y_apellido}" if @empleado_de_trabajo
-          key = STDIN.getch
+        when 'a' then alta
+        when 'b' then baja
+        when 'l' then EmpleadoController.listar_empleados
         when GUI::BACKSPACE then return
         else
-          GUI::informar_usuario 'Opcion incorrecta'
+          GUI.informar_usuario 'Opción incorrecta!'
       end
     end
+  end
+
+  def self.listar_empleados
+    system("clear")
+    printf "\t\t\t\t\tL I S T A D O    D E   E M P L E A D O S\n\n\n"
+    printf "NRO LEGAJO\tNOMBRE\t\t\t\tFECHA DE NAC.\t\t\DNI\t\tLOCALIDAD\n\n"
+    empleados = $empresa_actual.empleados
+    empleados.each do |e|
+      puts "#{e.nro_legajo}\t\t#{e.nombre_y_apellido}\t\t\t#{e.fecha_nacimiento}\t\t#{e.dni}\t#{e.localidad.nombre}"
+    end
+    gets
   end
 
   private
-    
-  def show_empleados
-    system("clear")  
-    printf "\t\t\t\t\tL I S T A D O    D E   E M P L E A D O S\n\n\n"
-    printf "NRO LEGAJO\tNOMBRE\t\t\t\tFECHA DE NAC.\t\t\DNI\t\tLOCALIDAD\n\n"
-    @empresa_de_trabajo.empleados.each do |e|
-      puts "#{e.nro_legajo}\t\t#{e.nombre_y_apellido}\t\t\t#{e.fecha_nacimiento}\t\t#{e.dni}\t#{e.localidad.nombre}"
+
+  def alta
+    empleado = Empleado.new
+    system("clear")
+    puts 'A L T A   D E   N U E V O   E M P L E A D O'
+    usuario_cargar_empleado(empleado)
+    if GUI.confirmacion_aceptada
+      empleado.save!
+      GUI.informar_usuario 'Empleado dada de alta'
     end
   end
 
-    def show_localidades
-      localidades = Localidad.all
-      puts "ID\tNombre"
-      localidades.each do |l|
-        puts "#{l.id}\t#{l.nombre}"
+  def baja
+    EmpleadoController.listar_empleados
+    puts "E M P L E A D O   A   D A R   D E   B A J A"
+    if nueva_baja = buscar_empleado
+      if GUI.confirmacion_aceptada
+        nueva_baja.destroy
+        GUI.informar_usuario 'Empleado eliminado'
       end
+    else
+      GUI.informar_usuario 'Empleado inexistente'
     end
+  end
 
-    def buscar_empleado
-      print 'Ingrese numero de legajo: '
-      key = gets.chomp
-      Empleado.find_by(nro_legajo: key)
-    end
-    
-    
+  def usuario_cargar_empleado(empleado)
+    empleado.nro_legajo = GUI.ask_input('Nro de Legajo: ', empleado.nro_legajo)
+    empleado.nombre_y_apellido = GUI.ask_input('Nombre y Apellido: ', empleado.nombre_y_apellido)
+    empleado.fecha_nacimiento = GUI.ask_input('Fecha de nacimiento: ', empleado.fecha_nacimiento)
+    empleado.dni = GUI.ask_input('DNI: ', empleado.dni)
+    LocalidadController.listar_localidades
+    empleado.localidad_id = GUI.ask_input('Id localidad: ', empleado.localidad_id)
+    empleado.empresa_id = $empresa_actual.id
+  end
 
+  def buscar_empleado
+    print 'Ingrese numero de legajo: '
+    Empleado.find_by(empresa_id: $empresa_actual.id, nro_legajo: gets.chomp)
+  end
 end

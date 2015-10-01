@@ -7,11 +7,11 @@ class EmpresaController
       system("clear")
       load './views/empresa_menu_abm_view.rb'
       case STDIN.getch.downcase
-        when 'l' then listar_empresas
         when 'a' then alta
         when 'b' then baja
         when 'm' then modificacion
-        when 'f' then buscar_por_razon_social
+        when 'u' then buscar_por_razon_social
+        when 'l' then EmpresaController.listar_empresas
         when GUI::BACKSPACE then return
         else
           GUI.informar_usuario 'Opción incorrecta!'
@@ -19,7 +19,7 @@ class EmpresaController
     end
   end
 
-  def listar_empresas
+  def self.listar_empresas
     system("clear")
     printf "\t\t\t\t\tL I S T A D O    D E   E M P R E S A S\n\n\n"
     printf "ID\tNOMBRE\t\t\t\tCUIT\t\t\tDOMICILIO\t\t\tLOCALIDAD\n\n"
@@ -27,6 +27,10 @@ class EmpresaController
       puts "#{e.id}\t#{e.razon_social}\t\t\t#{e.cuit}\t\t#{e.domicilio}\t\t\t#{e.localidad.nombre}"
     end
     gets
+  end
+
+  def self.show_empresa_actual
+    puts "\n\n\n\t\tEMPRESA DE TRABAJO: #{$empresa_actual.razon_social}"
   end
 
   private
@@ -44,8 +48,8 @@ class EmpresaController
 
   def baja
     system("clear")
-    puts "Empresa a dar de baja"
-    listar_empresas
+    puts "E M P R E S A   A   D A R   D E   B A J A"
+    EmpresaController.listar_empresas
     if nueva_baja = buscar_empresa
       if GUI.confirmacion_aceptada
         nueva_baja.destroy
@@ -58,7 +62,7 @@ class EmpresaController
 
   def modificacion
     system("clear")
-    listar_empresas
+    EmpresaController.listar_empresas
     printf "Empresa a modificar\n"
     if empresa = buscar_empresa
       usuario_cargar_empresa(empresa)
@@ -75,25 +79,30 @@ class EmpresaController
     empresa.razon_social = GUI.ask_input('Razón Social', empresa.razon_social)
     empresa.cuit = GUI.ask_input('CUIT', empresa.cuit)
     empresa.domicilio = GUI.ask_input('Domicilio', empresa.domicilio)
-    empresa.localidad_id = seleccionar_localidad
+    LocalidadController.listar_localidades
+    empresa.localidad_id = GUI.ask_input('Id localidad: ', empresa.localidad_id)
   end
 
   def buscar_por_razon_social
-  end
-
-  def seleccionar_localidad
-    listar_localidades
-    printf "Seleccione ID de la localidad: "
-    return STDIN.gets.chomp
-  end
-
-  def listar_localidades
-    puts "Localidades:"
-    puts "ID\tNombre"
-    Localidad.all.each do |l|
-      puts "#{l.id}\t#{l.nombre}"
+    system("clear")
+    print "Razon social: "
+    empresas_encontradas = Empresa.where("razon_social REGEXP ?", gets.chomp)
+    if empresas_encontradas
+      puts 'hay empresas'
+      #      show_resultados_busqueda(empresas_encontradas)
+    else
+      puts 'No se encontraron empresas'
     end
-    puts ''
+    gets
+  end
+
+  def show_resultados_busqueda(empresas)
+    printf "\n\t\t\t\t\tL I S T A D O    D E   E M P R E S A S   E N C O N T R A D A S\n\n\n"
+    printf "ID\tNOMBRE\t\t\t\tCUIT\t\t\tDOMICILIO\t\t\tLOCALIDAD\n\n"
+    empresas.order(:razon_social).each do |e|
+      puts "#{e.id}\t#{e.razon_social}\t\t\t#{e.cuit}\t\t#{e.domicilio}\t\t\t#{e.localidad.nombre}"
+    end
+    gets
   end
 
   def buscar_empresa
