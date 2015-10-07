@@ -2,7 +2,9 @@
 
 require_relative 'empresa_controller'
 require_relative 'concepto_controller'
+require_relative 'empleado_controller'
 require_relative 'localidad_controller'
+require_relative 'liquidacion_controller'
 require_relative '../helpers/gui'
 
 class MainController
@@ -41,6 +43,8 @@ class MainController
 
   def seleccionar_opcion_en_main_menu(x)
     case x
+    when "s"
+      seleccionar_actual
     when "e"
       EmpresaController.new.run
     when "c"
@@ -49,8 +53,8 @@ class MainController
       EmpleadoController.new.run
     when "o"
       LocalidadController.new.run
-    when "s"
-      seleccionar_actual
+    when "i"
+      LiquidacionController.new.run
     else
       puts 'Opcion incorrecta'
     end

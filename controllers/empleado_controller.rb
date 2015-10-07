@@ -18,17 +18,22 @@ class EmpleadoController
     system("clear")
     printf "\t\t\t\t\tL I S T A D O    D E   E M P L E A D O S\n\n\n"
     printf "NRO LEGAJO\tNOMBRE\t\t\t\tFECHA DE NAC.\t\t\DNI\t\tLOCALIDAD\n\n"
-    empleados = $empresa_actual.empleados
-    empleados.each do |e|
+    $empresa_actual.reload
+    $empresa_actual.empleados.each do |e|
       puts "#{e.nro_legajo}\t\t#{e.nombre_y_apellido}\t\t\t#{e.fecha_nacimiento}\t\t#{e.dni}\t#{e.localidad.nombre}"
     end
     gets
   end
 
+  def self.buscar_empleado
+    print 'Ingrese numero de legajo: '
+    Empleado.find_by(empresa_id: $empresa_actual.id, nro_legajo: gets.chomp)
+  end
+
   private
 
   def alta
-    empleado = Empleado.new
+    empleado = $empresa_actual.empleados.build
     system("clear")
     puts 'A L T A   D E   N U E V O   E M P L E A D O'
     usuario_cargar_empleado(empleado)
@@ -41,7 +46,7 @@ class EmpleadoController
   def baja
     EmpleadoController.listar_empleados
     puts "E M P L E A D O   A   D A R   D E   B A J A"
-    if nueva_baja = buscar_empleado
+    if nueva_baja = EmpleadoController.buscar_empleado
       if GUI.confirmacion_aceptada
         nueva_baja.destroy
         GUI.informar_usuario 'Empleado eliminado'
@@ -58,11 +63,5 @@ class EmpleadoController
     empleado.dni = GUI.ask_input('DNI: ', empleado.dni)
     LocalidadController.listar_localidades
     empleado.localidad_id = GUI.ask_input('Id localidad: ', empleado.localidad_id)
-    empleado.empresa_id = $empresa_actual.id
-  end
-
-  def buscar_empleado
-    print 'Ingrese numero de legajo: '
-    Empleado.find_by(empresa_id: $empresa_actual.id, nro_legajo: gets.chomp)
   end
 end

@@ -86,13 +86,8 @@ class EmpresaController
   def buscar_por_razon_social
     system("clear")
     print "Razon social: "
-    empresas_encontradas = Empresa.where("razon_social REGEXP ?", gets.chomp)
-    if empresas_encontradas
-      puts 'hay empresas'
-      #      show_resultados_busqueda(empresas_encontradas)
-    else
-      puts 'No se encontraron empresas'
-    end
+    empresas_encontradas = Empresa.where("lower(razon_social) like ?", "%#{gets.chomp.downcase}%")
+    show_resultados_busqueda(empresas_encontradas) if empresas_encontradas.any?
     gets
   end
 

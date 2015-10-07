@@ -4,9 +4,9 @@ require 'fb'
 require_relative '../models/empresa'
 require_relative '../models/empleado'
 require_relative '../models/concepto'
-require_relative '../models/concepto_personal'
 require_relative '../models/localidad'
-
+require_relative '../models/liquidacion'
+require_relative '../models/detalle'
 
 config = { 'sueldos' => { 'adapter' => 'fb',
                           'database' => 'db/sueldos.fdb',
