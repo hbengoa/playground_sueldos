@@ -8,6 +8,10 @@ require_relative '../models/localidad'
 require_relative '../models/liquidacion'
 require_relative '../models/detalle'
 
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'liquidacion', 'liquidaciones'
+end
+
 config = { 'sueldos' => { 'adapter' => 'fb',
                           'database' => 'db/sueldos.fdb',
                           'username' => 'sysdba',
