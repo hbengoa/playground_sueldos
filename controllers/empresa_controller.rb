@@ -26,7 +26,7 @@ class EmpresaController
     Empresa.order(:razon_social).each do |e|
       puts "#{e.id}\t#{e.razon_social}\t\t\t#{e.cuit}\t\t#{e.domicilio}\t\t\t#{e.localidad.nombre}"
     end
-    gets
+    GUI.ask_confirmation
   end
 
   def self.show_empresa_actual

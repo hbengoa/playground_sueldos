@@ -22,7 +22,7 @@ class EmpleadoController
     $empresa_actual.empleados.each do |e|
       puts "#{e.nro_legajo}\t\t#{e.nombre_y_apellido}\t\t\t#{e.fecha_nacimiento}\t\t#{e.dni}\t#{e.localidad.nombre}"
     end
-    gets
+    GUI.ask_confirmation
   end
 
   def self.buscar_empleado

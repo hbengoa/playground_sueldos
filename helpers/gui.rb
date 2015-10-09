@@ -18,4 +18,9 @@ class GUI
     input = gets.chomp
     input.blank? ? valor_defecto : input
   end
+
+  def self.ask_confirmation
+    puts 'Presione <ENTER> para continuar..'
+    gets
+  end
 end

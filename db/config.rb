@@ -1,5 +1,6 @@
 require 'active_record'
 require 'fb'
+require 'pry-byebug'
 
 require_relative '../models/empresa'
 require_relative '../models/empleado'

@@ -36,8 +36,9 @@ class LiquidacionController
     puts "#{liquidacion.categoria = seleccionar_categoria(escala, liquidacion.puesto)} "
     cargar_conceptos_fijos(liquidacion, escala)
     cargar_novedades(liquidacion)
-#    totalizar
+    liquidacion.calcular_totales
 #    confirmar y salvar
+    liquidacion.save!
   end
 
   def seleccionar_puesto(escala)
@@ -89,7 +90,6 @@ class LiquidacionController
     detalle = liquidacion.detalles.build
     detalle.concepto_id = Concepto.find_by(codigo: 1000).id
     detalle.importe = BigDecimal.new(escala[liquidacion.puesto.to_sym][liquidacion.categoria.to_sym].to_s)
-    detalle.save!
     return detalle.importe
   end
 
@@ -99,7 +99,6 @@ class LiquidacionController
       detalle = liquidacion.detalles.build
       detalle.concepto_id = Concepto.find_by(codigo: 1001).id
       detalle.importe = basico * BigDecimal.new(anios_antiguedad) / 100
-      detalle.save!
       return detalle.importe
     else
       return BigDecimal.new("0")
@@ -112,7 +111,6 @@ class LiquidacionController
       detalle = liquidacion.detalles.build
       detalle.concepto_id = Concepto.find_by(codigo: 1002).id
       detalle.importe = acumulado / 12
-      detalle.save!
     end
   end
 
@@ -122,18 +120,17 @@ class LiquidacionController
       detalle = liquidacion.detalles.build
       detalle.concepto_id = Concepto.find_by(codigo: 3000).id
       detalle.importe = BigDecimal.new("1524")
-      detalle.save!
     end
   end
 
   def cargar_novedades(liquidacion)
     bruto = bruto_acumulado(liquidacion)
-    conceptos_nov = Concepto.where("codigo >= 2000 and codigo <= 2999")
+    conceptos_nov = Concepto.where("codigo >= 2000 and codigo <= 2999").order(:codigo)
     conceptos_nov.each do |concepto|
       case concepto.codigo
         when 2000 then calcula_inasist_injustificada(liquidacion, bruto)
         when 2001 then calcula_inasist_justificada(liquidacion, bruto)
-        when 2002 then calcula_lic_enfermedad
+        when 2002 then calcula_lic_enfermedad(liquidacion)
         when 2998 then calcula_vacaciones(liquidacion, bruto)
         when 2999 then calcula_aguinaldo(liquidacion, bruto)
       end
@@ -155,7 +152,6 @@ class LiquidacionController
         detalle = liquidacion.detalles.build
         detalle.concepto_id = Concepto.find_by(codigo: 2000).id
         detalle.importe = bruto / 30 * dias_cant
-        detalle.save!
       end
     end
   end
@@ -167,18 +163,15 @@ class LiquidacionController
         detalle = liquidacion.detalles.build
         detalle.concepto_id = Concepto.find_by(codigo: 2001).id
         detalle.importe = bruto / 30 * dias_cant
-        detalle.save!
       end
     end
   end
 
-  def calcula_lic_enfermedad
-    liquida = GUI.ask_input('Liquida licencia por enfermedad? s/n: ', "s")
-    if liquida.downcase == "s"
+  def calcula_lic_enfermedad(liquidacion)
+    if GUI.ask_input('Liquida licencia por enfermedad? s/n: ', "s").downcase == "s"
       detalle = liquidacion.detalles.build
       detalle.concepto_id = Concepto.find_by(codigo: 2002).id
       detalle.importe = BigDecimal.new(gets.chomp)
-      detalle.save!
     end
   end
 
@@ -189,7 +182,6 @@ class LiquidacionController
         detalle = liquidacion.detalles.build
         detalle.concepto_id = Concepto.find_by(codigo: 2998).id
         detalle.importe = bruto / 25 * dias_vac_cant
-        detalle.save!
       end
     end
   end
@@ -200,7 +192,6 @@ class LiquidacionController
       detalle = liquidacion.detalles.build
       detalle.concepto_id = Concepto.find_by(codigo: 2999).id
       detalle.importe = bruto / 2
-      detalle.save!
     end
   end
 end
