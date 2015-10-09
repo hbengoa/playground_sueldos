@@ -35,7 +35,7 @@ class LiquidacionController
     puts "#{liquidacion.puesto = seleccionar_puesto(escala)}"
     puts "#{liquidacion.categoria = seleccionar_categoria(escala, liquidacion.puesto)} "
     cargar_conceptos_fijos(liquidacion, escala)
-#    cargar_novedades
+    cargar_novedades(liquidacion)
 #    totalizar
 #    confirmar y salvar
   end
@@ -81,8 +81,8 @@ class LiquidacionController
     puts "C a r g a   d e   C o n c e p t o s"
     basico = calcular_basico(liquidacion, escala)
     antiguedad = calcular_antiguedad(liquidacion, basico)
- #  calcular_presentismo(liquidacion)
- #  calcular_suma_no_remunerativa(liquidacion)
+    calcular_presentismo(liquidacion, basico + antiguedad)
+    calcular_suma_no_remunerativa(liquidacion)
   end
 
   def calcular_basico(liquidacion, escala)
@@ -94,11 +94,113 @@ class LiquidacionController
   end
 
   def calcular_antiguedad(liquidacion, basico)
-    anios_antiguedad = GUI.ask_input('Antiguedad en años', 0)
-    detalle = liquidacion.detalles.build
-    detalle.concepto_id = Concepto.find_by(codigo: 1001).id
-    detalle.importe = basico * BigDecimal.new(anios_antiguedad) / 100
-    detalle.save!
-    return detalle.importe
+    anios_antiguedad = GUI.ask_input('Antiguedad en años', "0")
+    if BigDecimal.new(anios_antiguedad) > 0
+      detalle = liquidacion.detalles.build
+      detalle.concepto_id = Concepto.find_by(codigo: 1001).id
+      detalle.importe = basico * BigDecimal.new(anios_antiguedad) / 100
+      detalle.save!
+      return detalle.importe
+    else
+      return BigDecimal.new("0")
+    end
+  end
+
+  def calcular_presentismo(liquidacion, acumulado)
+    liquida = GUI.ask_input('Liquida presentismo? s/n: ', "s")
+    if liquida.downcase == "s"
+      detalle = liquidacion.detalles.build
+      detalle.concepto_id = Concepto.find_by(codigo: 1002).id
+      detalle.importe = acumulado / 12
+      detalle.save!
+    end
+  end
+
+  def calcular_suma_no_remunerativa(liquidacion)
+    liquida = GUI.ask_input('Liquida suma no remunerativa? s/n: ', "s")
+    if liquida.downcase == "s"
+      detalle = liquidacion.detalles.build
+      detalle.concepto_id = Concepto.find_by(codigo: 3000).id
+      detalle.importe = BigDecimal.new("1524")
+      detalle.save!
+    end
+  end
+
+  def cargar_novedades(liquidacion)
+    bruto = bruto_acumulado(liquidacion)
+    conceptos_nov = Concepto.where("codigo >= 2000 and codigo <= 2999")
+    conceptos_nov.each do |concepto|
+      case concepto.codigo
+        when 2000 then calcula_inasist_injustificada(liquidacion, bruto)
+        when 2001 then calcula_inasist_justificada(liquidacion, bruto)
+        when 2002 then calcula_lic_enfermedad
+        when 2998 then calcula_vacaciones(liquidacion, bruto)
+        when 2999 then calcula_aguinaldo(liquidacion, bruto)
+      end
+    end
+  end
+
+  def bruto_acumulado(liquidacion)
+    bruto = BigDecimal.new("0")
+    liquidacion.detalles.each do |con|
+      bruto += con.importe if Concepto.find_by(id: con.concepto_id).codigo <= 1999
+    end
+    bruto
+  end
+
+  def calcula_inasist_injustificada(liquidacion, bruto)
+    if liquidacion.detalles.where(concepto_id: 3).empty?
+      dias_cant = BigDecimal.new(GUI.ask_input('Dias inasistencia injustificada: ', '0'))
+      if dias_cant > 0
+        detalle = liquidacion.detalles.build
+        detalle.concepto_id = Concepto.find_by(codigo: 2000).id
+        detalle.importe = bruto / 30 * dias_cant
+        detalle.save!
+      end
+    end
+  end
+
+  def calcula_inasist_justificada(liquidacion, bruto)
+    if liquidacion.detalles.where(concepto_id: 3).empty?
+      dias_cant = BigDecimal.new(GUI.ask_input('Dias inasistencia justificada: ', '0'))
+      if dias_cant > 0
+        detalle = liquidacion.detalles.build
+        detalle.concepto_id = Concepto.find_by(codigo: 2001).id
+        detalle.importe = bruto / 30 * dias_cant
+        detalle.save!
+      end
+    end
+  end
+
+  def calcula_lic_enfermedad
+    liquida = GUI.ask_input('Liquida licencia por enfermedad? s/n: ', "s")
+    if liquida.downcase == "s"
+      detalle = liquidacion.detalles.build
+      detalle.concepto_id = Concepto.find_by(codigo: 2002).id
+      detalle.importe = BigDecimal.new(gets.chomp)
+      detalle.save!
+    end
+  end
+
+  def calcula_vacaciones(liquidacion, bruto)
+    if liquidacion.detalles.where(concepto_id: 3).empty?
+      dias_vac_cant = BigDecimal.new(GUI.ask_input('Dias de vacaciones: ', '0'))
+      if dias_vac_cant > 0
+        detalle = liquidacion.detalles.build
+        detalle.concepto_id = Concepto.find_by(codigo: 2998).id
+        detalle.importe = bruto / 25 * dias_vac_cant
+        detalle.save!
+      end
+    end
+  end
+
+  def calcula_aguinaldo(liquidacion, bruto)
+    liquida = GUI.ask_input('Liquida aguinaldo? s/n: ', "s")
+    if liquida.downcase == "s"
+      detalle = liquidacion.detalles.build
+      detalle.concepto_id = Concepto.find_by(codigo: 2999).id
+      detalle.importe = bruto / 2
+      detalle.save!
+    end
   end
 end

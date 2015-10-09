@@ -20,7 +20,7 @@ class ConceptoController
     system("clear")
     printf "\t\t\t\t\tL I S T A D O    D E   C O N C E P T O S\n\n\n"
     printf "CODIGO\tDESCRIPCION\n"
-    Concepto.all.each do |c|
+    Concepto.all.order(:codigo).each do |c|
       puts "#{c.codigo}\t#{c.descripcion}"
     end
     gets
