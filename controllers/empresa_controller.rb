@@ -41,8 +41,12 @@ class EmpresaController
     puts 'A L T A   D E   N U E V A   E M P R E S A'
     usuario_cargar_empresa(empresa)
     if GUI.confirmacion_aceptada
-      empresa.save!
-      GUI.informar_usuario 'Empresa dada de alta'
+      if empresa.save
+        GUI.informar_usuario 'Empresa dada de alta'
+      else
+        puts empresa.errors.full_messages
+        gets
+      end
     end
   end
 
