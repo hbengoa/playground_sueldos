@@ -1,0 +1,23 @@
+<h1>***  LISTADO DE EMPLEADOS ***</h1>
+
+<table>
+  <thead>
+    <th>LEGAJO</th>
+    <th>NOMBRE</th>
+    <th>FECHA DE NAC.</th>
+    <th>DNI</th>
+    <th>LOCALIDAD</th>
+  </thead>
+
+  <tbody>
+    <% $empresa_actual.empleados.each do |e| %>
+      <tr>
+        <td><%= e.nro_legajo %></td>
+        <td><%= e.nombre_y_apellido %></td>
+        <td><%= e.fecha_nacimiento_formatted %></td>
+        <td><%= e.dni %></td>
+        <td><%= e.localidad.nombre %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

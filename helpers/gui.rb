@@ -20,7 +20,7 @@ class GUI
   end
 
   def self.ask_confirmation
-    puts 'Presione <ENTER> para continuar..'
+    print 'Presione <ENTER> para continuar..'
     gets
   end
 end

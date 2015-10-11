@@ -16,12 +16,8 @@ class EmpleadoController
 
   def self.listar_empleados
     system("clear")
-    printf "\t\t\t\t\tL I S T A D O    D E   E M P L E A D O S\n\n\n"
-    printf "NRO LEGAJO\tNOMBRE\t\t\t\tFECHA DE NAC.\t\t\DNI\t\tLOCALIDAD\n\n"
     $empresa_actual.reload
-    $empresa_actual.empleados.each do |e|
-      puts "#{e.nro_legajo}\t\t#{e.nombre_y_apellido}\t\t\t#{e.fecha_nacimiento}\t\t#{e.dni}\t#{e.localidad.nombre}"
-    end
+    ERB.new(File.read('views/empleado_index_view.text.erb'), nil, '-').run
     GUI.ask_confirmation
   end
 
