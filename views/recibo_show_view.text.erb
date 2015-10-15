@@ -1,0 +1,29 @@
+                    			--------- RECIBO   DE   SUELDO ----------
+
+EMPLEADOR: <%= r.empleado.empresa.razon_social %>
+EMPLEADO: <%= r.empleado.nombre_y_apellido %>
+
+NRO DE LEGAJO: <%= r.empleado.nro_legajo %> | PUESTO <%= r.puesto %>  | FECHA LIQ: <%= r.fecha %>
+
+------------------------------------------------------------------------------------------------------------------
+CONCEPTO		    CANTIDAD	    	REMUNERATIVO	              EXENTO            	DESCUENTOS
+------------------------------------------------------------------------------------------------------------------
+
+SUELDO BASICO				     <%= r.basico %>
+ANTIGUEDAD       <%= r.anios_antiguedad %> <%=r.antiguedad%>
+PRESENTSIMO                                          <%= recibo.presentismo %>
+INASISTENCIAS                <%= r.dias_inasistencias %>                    <%= recibo.inasistencias * -1 %>
+SUMA NO REMUNERATIVA                                                         <%= recibo.suma_no_remunerativa %>
+VACACIONES                   <%= r.dias_vacaciones %>                     <%= recibo.vacaciones %>
+AGUINALDO                                           <%= recibo.aguinaldo %>
+JUBILACION 11%                                                                             <%= h.jubilacion     %>
+LEY PAMI 3%                                                                                <%= h.ley_pami       %>
+OBRA SOCIAL 3%                                                                             <%= h.obra_social    %>
+CUOTA SINDICAL 2,5%                                                                        <%= h.cuota_sindical %>
+FAECYS 0,5%                                                                                <%= h.faecys         %>
+
+------------------------------------------------------------------------------------------------------------------
+TOTALES                       <%= r.total_remunerativo %> <%= r.total_no_remunerativo %> <%= r.total_descuentos %>
+------------------------------------------------------------------------------------------------------------------
+                                                                         NETO A COBRAR:   <%= recibo.total_neto %>
+------------------------------------------------------------------------------------------------------------------
