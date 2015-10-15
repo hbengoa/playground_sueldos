@@ -1,6 +1,6 @@
               ***  L I S T A D O    D E   E M P L E A D O S ***
 
-LEGAJO   NOMBRE                          FECHA DE NAC.        DNI        LOCALIDAD
+LEGAJO   NOMBRE                          FECHA DE NAC.        DNI        LOCALIDAD                             PUESTO
 <% $empresa_actual.empleados.each do |e| %>
-<%= e.nro_legajo.to_s.center(7) %>  <%= e.nombre_y_apellido.ljust(32) %><%= e.fecha_nacimiento_formatted.center(12) %>  <%= e.dni.to_s.rjust(12) %>    <%= e.localidad.nombre.ljust(30) -%>
+  <%= e.nro_legajo.to_s.center(7) %>  <%= e.nombre_y_apellido.ljust(32) %><%= e.fecha_nacimiento_formatted.center(12) %>  <%= e.dni.to_s.rjust(12) %>    <%= e.localidad.nombre.ljust(30) -%>             <%= e.puesto.descripcion.ljust(10) %>
 <% end %>

@@ -49,6 +49,3 @@ DEPENDENCIES
   activerecord-fb-adapter (= 1.0.1)
   fb
   pry-byebug
-
-BUNDLED WITH
-   1.10.6

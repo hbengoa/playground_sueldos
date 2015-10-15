@@ -1,0 +1,35 @@
+                    			--------- RECIBO   DE   SUELDO ----------
+
+EMPLEADOR: <%= self.empleado.empresa.razon_social %>  
+EMPLEADO: <%= self.empleado.nombre_y_apellido %>
+
+NRO DE LEGAJO: <%= self.empleado.nro_legajo %> | PUESTO <%= self.puesto %>  | FECHA LIQ: <%= self.fecha %>
+
+___________________________________________________________________________________________________________
+CONCEPTO		CANTIDAD		REMUNERATIVO	          EXENTO        	DESCUENTOS	
+___________________________________________________________________________________________________________
+
+SUELDO BASICO				            <%= self.basico %>
+ANTIGUEDAD                    <%= self.anios_antiguedad %>                      <%= self.antiguedad %>
+PRESENTSIMO                                          <%= self.presentismo %>
+INASISTENCIAS                <%= self.dias_inasistencias %>                    <%= self.inasistencias * -1 %>
+SUMA NO REMUNERATIVA                                                         <%= self.suma_no_remunerativa %>
+VACACIONES                   <%= self.dias_vacaciones %>                     <%= self.vacaciones %>
+AGUINALDO                                           <%= self.aguinaldo %>
+JUBILACION 11%							                   		    <%= self.jubilacion %>
+LEY PAMI 3%											      <%= self.ley_pami %>
+OBRA SOCIAL 3%                                                                                        <%= self.obra_social %>
+CUOTA SINDICAL 2,5%										      <%= self.cuota_sindical %>
+FAECYS 0,5%											       <%= self.faecys %>
+
+------------------------------------------------------------------------------------------------------------
+TOTALES				           	   <%= self.total_remunerativo %>                  <%= self.total_no_remunerativo %>                     <%= self.total_descuentos %>
+------------------------------------------------------------------------------------------------------------
+					
+                                     						  NETO A COBRAR:   <%= self.total_neto %>
+
+
+
+
+
+

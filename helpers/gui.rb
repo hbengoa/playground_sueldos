@@ -23,4 +23,9 @@ class GUI
     print 'Presione <ENTER> para continuar..'
     gets
   end
+
+  def self.liquida?(concepto)
+    print "Liquida #{concepto}? s/n: "
+    gets.chomp.downcase == 's'
+  end
 end

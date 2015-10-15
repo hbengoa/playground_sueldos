@@ -1,10 +1,10 @@
 # encoding: utf-8
 
 require_relative 'empresa_controller'
-require_relative 'concepto_controller'
 require_relative 'empleado_controller'
 require_relative 'localidad_controller'
-require_relative 'liquidacion_controller'
+require_relative 'recibo_controller'
+require_relative 'puesto_controller'
 require_relative '../helpers/gui'
 
 class MainController
@@ -47,14 +47,12 @@ class MainController
       seleccionar_actual
     when "e"
       EmpresaController.new.run
-    when "c"
-      ConceptoController.new.run
     when "m"
       EmpleadoController.new.run
     when "o"
       LocalidadController.new.run
     when "i"
-      LiquidacionController.new.run
+      ReciboController.new.run
     else
       puts 'Opcion incorrecta'
     end

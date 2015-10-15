@@ -59,5 +59,7 @@ class EmpleadoController
     empleado.dni = GUI.ask_input('DNI: ', empleado.dni)
     LocalidadController.listar_localidades
     empleado.localidad_id = GUI.ask_input('Id localidad: ', empleado.localidad_id)
+    PuestoController.listar_puestos
+    empleado.puesto_id = GUI.ask_input('Id puesto: ', empleado.puesto_id)
   end
 end
