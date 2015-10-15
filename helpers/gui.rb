@@ -24,8 +24,8 @@ class GUI
     gets
   end
 
-  def self.liquida?(concepto)
-    print "Liquida #{concepto}? s/n: "
+  def self.confirma?(etiqueta)
+    print "#{etiqueta}? s/n: "
     gets.chomp.downcase == 's'
   end
 end

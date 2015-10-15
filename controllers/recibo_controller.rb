@@ -20,17 +20,33 @@ class ReciboController
       recibo = empleado.recibos.build
       system("clear")
       puts "A L T A   D E   N U E V A   L I Q U I D A C I O N\n"
-      usuario_cargar_recibo(recibo)
+      ingresar_recibo(recibo)
+      recibo.liquidar
+      recibo.save!
+      show(recibo)
     else
       GUI.informar_usuario('Empleado no encontrado')
     end
   end
 
-  def usuario_cargar_recibo(recibo)
-    recibo.fecha = GUI.ask_input('Fecha de recibo', Date.today.to_s)
-    recibo.puesto = recibo.empleado.puesto.descripcion
-    recibo.cargar_detalle
-    recibo.save!
-    recibo.mostrar
+  def show(recibo)
+    system("clear")
+    r = recibo
+    h = ReciboShowHelper.new(recibo)
+    ERB.new(File.read('views/recibo_show_view.text.erb'), nil, '-').run(binding)
+    GUI.ask_confirmation
+  end
+
+  private
+
+  def ingresar_recibo(recibo)
+    recibo.fecha                = GUI.ask_input('Fecha de recibo', Date.today.to_s)
+    recibo.anios_antiguedad     = GUI.ask_input('Años antiguedad', '0')
+    recibo.liquida_presentismo  = GUI.confirma?('Liquida presentismo')
+    recibo.dias_inasistencias   = GUI.ask_input('Cantidad de dias de inasistencias', '1') unless recibo.liquida_presentismo
+    recibo.suma_no_remunerativa = GUI.ask_input('Importe no remunerativo', '0') if GUI.confirma?('Liquida no remunrativo')
+    recibo.liquida_vacaciones   = GUI.confirma?('Carga vacaciones')
+    recibo.dias_vacaciones      = GUI.ask_input('Cantidad de dias de vacaciones', '14') if recibo.liquida_vacaciones
+    recibo.liquida_aguinaldo    = GUI.confirma?('Liquida aguinaldo')
   end
 end
