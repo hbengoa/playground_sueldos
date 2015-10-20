@@ -23,6 +23,7 @@ class Recibo < ActiveRecord::Base
       self.puesto ||= empleado.puesto.descripcion
       self.basico ||= empleado.puesto.basico
     end
+    self.anios_antiguedad     ||= 0
     self.antiguedad           ||= 0
     self.presentismo          ||= 0
     self.inasistencias        ||= 0

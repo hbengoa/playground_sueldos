@@ -1,0 +1,9 @@
+EMPLEADOR: <%= empleado.empresa.razon_social %>
+EMPLEADO: <%= empleado.nombre_y_apellido %>
+
+                                         ***  L I S T A D O    D E   R E C I B O S  ***
+
+Id Recibo         Fecha             Puesto           Remunerativo          Exento         Descuentos          Neto a Cobrar
+<% recibos.each do |r| %>
+      <%= r.id %> <%= r.fecha.to_s.rjust(18) %> <%= r.puesto.to_s.rjust(17) %>  <%= r.total_remunerativo.to_s.rjust(19) %>  <%= r.total_no_remunerativo.to_s.rjust(13) -%> <%= r.total_descuentos.to_s.rjust(19) %> <%= r.total_neto.to_s.rjust(22) %>
+<% end %>

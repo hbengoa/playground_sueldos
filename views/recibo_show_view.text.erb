@@ -3,19 +3,19 @@
 EMPLEADOR: <%= r.empleado.empresa.razon_social %>
 EMPLEADO: <%= r.empleado.nombre_y_apellido %>
 
-NRO DE LEGAJO: <%= r.empleado.nro_legajo %> | PUESTO <%= r.puesto %>  | FECHA LIQ: <%= r.fecha %>
+NRO DE LEGAJO: <%= r.empleado.nro_legajo %> | PUESTO <%= r.puesto %>  | FECHA LIQ: <%= r.fecha.to_s %>
 
 ------------------------------------------------------------------------------------------------------------------
 CONCEPTO		    CANTIDAD	    	REMUNERATIVO	              EXENTO            	DESCUENTOS
 ------------------------------------------------------------------------------------------------------------------
 
-SUELDO BASICO				     <%= r.basico %>
-ANTIGUEDAD       <%= r.anios_antiguedad %> <%=r.antiguedad%>
-PRESENTSIMO                                          <%= recibo.presentismo %>
-INASISTENCIAS                <%= r.dias_inasistencias %>                    <%= recibo.inasistencias * -1 %>
-SUMA NO REMUNERATIVA                                                         <%= recibo.suma_no_remunerativa %>
-VACACIONES                   <%= r.dias_vacaciones %>                     <%= recibo.vacaciones %>
-AGUINALDO                                           <%= recibo.aguinaldo %>
+SUELDO BASICO	             	                <%= h.basico        %>
+ANTIGUEDAD          <%= h.anios_antiguedad   %> <%= h.antiguedad    %>
+PRESENTISMO                                     <%= h.presentismo   %>
+INASISTENCIAS       <%= h.dias_inasistencias %> <%= h.inasistencias %>
+SUMA NO REMUNERATIVA                                    <%= h.suma_no_remunerativa %>
+VACACIONES          <%= h.dias_vacaciones    %> <%= h.vacaciones    %>
+AGUINALDO                                       <%= h.aguinaldo     %>
 JUBILACION 11%                                                                             <%= h.jubilacion     %>
 LEY PAMI 3%                                                                                <%= h.ley_pami       %>
 OBRA SOCIAL 3%                                                                             <%= h.obra_social    %>
@@ -23,7 +23,7 @@ CUOTA SINDICAL 2,5%                                                             
 FAECYS 0,5%                                                                                <%= h.faecys         %>
 
 ------------------------------------------------------------------------------------------------------------------
-TOTALES                       <%= r.total_remunerativo %> <%= r.total_no_remunerativo %> <%= r.total_descuentos %>
+TOTALES                       <%= h.total_remunerativo %> <%= h.total_no_remunerativo %> <%= h.total_descuentos %>
 ------------------------------------------------------------------------------------------------------------------
-                                                                         NETO A COBRAR:   <%= recibo.total_neto %>
+                                                                              NETO A COBRAR:   <%= h.total_neto %>
 ------------------------------------------------------------------------------------------------------------------

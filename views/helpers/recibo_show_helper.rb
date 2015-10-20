@@ -3,6 +3,62 @@ class ReciboShowHelper
     @recibo = recibo
   end
 
+  def total_remunerativo
+    right_format_currency(@recibo.total_remunerativo, 30)
+  end
+
+  def total_no_remunerativo
+    right_format_currency(@recibo.total_no_remunerativo, 23)
+  end
+
+  def total_descuentos
+    right_format_currency(@recibo.total_descuentos, 29)
+  end
+
+  def total_neto
+    right_format_currency(@recibo.total_neto, 19)
+  end
+
+  def basico
+    right_format_currency(@recibo.basico, 12)
+  end
+
+  def anios_antiguedad
+    right_format_currency(@recibo.anios_antiguedad, 16)
+  end
+
+  def antiguedad
+    right_format_currency(@recibo.antiguedad, 23)
+  end
+
+  def presentismo
+    right_format_currency(@recibo.presentismo, 12)
+  end
+
+  def dias_vacaciones
+    right_format_currency(@recibo.dias_vacaciones, 16)
+  end
+
+  def vacaciones
+    right_format_currency(@recibo.vacaciones, 23)
+  end
+
+  def dias_inasistencias
+    right_format_currency(@recibo.dias_inasistencias, 16)
+  end
+
+  def inasistencias
+    right_format_currency(@recibo.inasistencias * -1, 23)
+  end
+
+  def aguinaldo
+    right_format_currency(@recibo.aguinaldo, 12)
+  end
+
+  def suma_no_remunerativa
+    right_format_currency(@recibo.suma_no_remunerativa, 28)
+  end
+
   def jubilacion
     right_format_currency(@recibo.jubilacion, 23)
   end
