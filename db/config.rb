@@ -9,8 +9,8 @@ require_relative '../models/empleado'
 require_relative '../models/localidad'
 require_relative '../models/recibo'
 require_relative '../models/puesto'
+require_relative '../reports/totales_por_concepto_report'
 require_relative '../views/helpers/recibo_show_helper'
-require_relative '../controllers/recibo_controller'
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'liquidacion', 'liquidaciones'

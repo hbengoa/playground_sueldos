@@ -5,7 +5,7 @@ require_relative 'empleado_controller'
 require_relative 'localidad_controller'
 require_relative 'recibo_controller'
 require_relative 'puesto_controller'
-require_relative 'totales_por_concepto_report_controller'
+require_relative 'reports/totales_por_concepto_controller'
 require_relative '../helpers/gui'
 
 class MainController
