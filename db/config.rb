@@ -1,4 +1,5 @@
 require 'active_record'
+require 'active_support'
 require 'fb'
 # require 'pry-byebug'
 require 'erb'

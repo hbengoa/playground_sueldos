@@ -15,7 +15,7 @@ puts "\t\t**                              (B) A J A   R E C I B O               
 puts "\t\t**                                                                                                                      **"
 puts "\t\t**                              L (I) S T A R   R E C I B O S                                                           **"
 puts "\t\t**                                                                                                                      **"
-puts "\t\t**                                                                                                                      **"
+puts "\t\t**                              I (N) F O R M E   T O T A L E S   P O R   C O N C E P T O                               **"
 puts "\t\t**                                                                                                                      **"
 puts "\t\t**                                                                                                                      **"
 puts "\t\t**                                                                                                                      **"

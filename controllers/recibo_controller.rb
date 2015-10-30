@@ -7,6 +7,7 @@ class ReciboController
         when 'l' then alta
         when 'b' then baja
         when 'i' then listar_recibos
+        when 'n' then TotalesPorConceptoReportController.new.run
         when GUI::BACKSPACE then return
         else
           GUI.informar_usuario 'Opción incorrecta!'
