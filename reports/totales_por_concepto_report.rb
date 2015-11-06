@@ -1,6 +1,7 @@
 class TotalesPorConceptoReport
   attr_reader :sueldo_basico, :antiguedad, :presentismo, :inasistencias, :dias_inasistencias, :vacaciones, :dias_vacaciones,
-              :aguinaldo, :suma_no_remunerativa, :jubilacion, :ley_pami, :obra_social, :cuota_sindical, :faecys
+              :aguinaldo, :suma_no_remunerativa, :jubilacion, :ley_pami, :obra_social, :cuota_sindical, :faecys,
+              :total_remunerativo, :total_no_remunerativo, :total_descuentos, :total_neto
 
   def initialize(empresa, desde_fecha, hasta_fecha)
     @empresa     = empresa
@@ -30,10 +31,17 @@ class TotalesPorConceptoReport
     @obra_social            = recibos.sum(:obra_social)
     @cuota_sindical         = recibos.sum(:cuota_sindical)
     @faecys                 = recibos.sum(:faecys)
- #   #calcular_totales
+    calcular_totales
     self
   end
 
+  private
+
   def calcular_totales
+    @total_remunerativo = @sueldo_basico + @antiguedad + @presentismo + @inasistencias + @vacaciones + @aguinaldo
+    @total_no_remunerativo = @suma_no_remunerativa
+    @total_descuentos = @jubilacion + @ley_pami + @obra_social + @cuota_sindical + @faecys
+    @total_neto = @total_remunerativo + @total_no_remunerativo - @total_descuentos
+    self
   end
 end

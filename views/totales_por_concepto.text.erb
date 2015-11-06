@@ -6,23 +6,23 @@ Desde: <%= desde_fecha %>
 Hasta: <%= hasta_fecha %>
 
 ==================================================================================================
-CONCEPTO			Cantidad	Remunerativo		Exento		Descuentos
+CONCEPTO		     Cantidad		Remunerativo		Exento		Descuentos
 ==================================================================================================
-Sueldo Basico
-Antiguedad                                  <%= r.antiguedad %>
-Presentismo
-Inasistencias
-Vacaciones
-Aguinaldo
-Suma No Remunerativa
-Jubilacion 11%
-Ley Pami 3%
-Obra Social 3%
-Cuota Sindical 2,5%
-Faecys 0,5%
+Sueldo Basico                                   <%= r.sueldo_basico %>
+Antiguedad                                      <%= r.antiguedad    %>
+Presentismo                                     <%= r.presentismo   %>
+Inasistencias        <%= r.dias_inasistencias %><%= r.inasistencias %>
+Vacaciones           <%= r.dias_vacaciones    %><%= r.vacaciones    %>
+Aguinaldo                                       <%= r.aguinaldo     %>
+Suma No Remunerativa                              <%= r.suma_no_remunerativa %>
+Jubilacion 11%								   <%= r.jubilacion     %>			
+Ley Pami 3%                                                                <%= r.ley_pami       %>
+Obra Social 3%	                                                           <%= r.obra_social    %>
+Cuota Sindical 2,5%                                                        <%= r.cuota_sindical %>
+Faecys 0,5%                                                                <%= r.faecys         %>
 
 ==================================================================================================
-Totales
+Totales         <%= r.total_remunerativo %><%= r.total_no_remunerativo %><%= r.total_descuentos %>
 ==================================================================================================
-							              Total Neto
+							            Total Neto <%= r.total_neto %>
 --------------------------------------------------------------------------------------------------

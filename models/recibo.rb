@@ -8,6 +8,9 @@ class Recibo < ActiveRecord::Base
 
   after_initialize :inicializar
 
+  validates :fecha, format: { with: /\A\d{4}-\d{2}-\d{2}\z/, message: 'Formato de fecha inválido' }
+  validates :anios_antiguedad, numericality: { only_integer: true }
+
   def liquidar
     liquidar_antiguedad
     liquidar_presentismo
