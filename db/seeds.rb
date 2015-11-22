@@ -71,7 +71,7 @@ Empleado.create!(nro_legajo: '1', nombre_y_apellido: 'Mike Thompson', fecha_naci
 Empleado.create!(nro_legajo: '2', nombre_y_apellido: 'Roger Federer', fecha_nacimiento: '1980-05-05', dni: '32.568.654', localidad_id: '5', empresa_id: '8', puesto_id: '2')
 Empleado.create!(nro_legajo: '3', nombre_y_apellido: 'Stan Wawrinka', fecha_nacimiento: '1982-01-31', dni: '88.432.576', localidad_id: '11', empresa_id: '8', puesto_id: '6')
 Empleado.create!(nro_legajo: '54', nombre_y_apellido: 'Lionel Messi', fecha_nacimiento: '1987-06-24', dni: '23.675.331', localidad_id: '4', empresa_id: '7', puesto_id: '20')
-Empleado.create!(nro_legajo: '99', nombre_y_apellido: 'Marcos Galvan', fecha_nacimiento: '1984-12-21', dni: '33.765,421', localidad_id: '3', empresa_id: '7', puesto_id: '6')
+Empleado.create!(nro_legajo: '99', nombre_y_apellido: 'Marcos Galvan', fecha_nacimiento: '1984-12-21', dni: '33.765.421', localidad_id: '3', empresa_id: '7', puesto_id: '6')
 Empleado.create!(nro_legajo: '77', nombre_y_apellido: 'Pete Sampras', fecha_nacimiento: '1972-10-03', dni: '22.345.321', localidad_id: '11', empresa_id: '8', puesto_id: '8')
 
 #Recibos
