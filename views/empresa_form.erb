@@ -1,0 +1,41 @@
+<% if @empresa.new_record? %>
+  <h1>Nueva Empresa</h1>
+<% else %>
+  <h1>Edición Empresa</h1>
+<% end %>
+
+<form action="<%= @empresa.new_record? ? '/empresas/create' : "/empresas/#{@empresa.id}" %>" method="post" class="form-horizontal">
+  <% if !@empresa.new_record? %>
+    <input type="hidden" name="_method" value="put">
+  <% end %>
+
+  <div class="control-group">
+    <label class="control-label" for="">Razón Social :</label>
+    <div class="controls">
+      <input type="text" name="empresa[razon_social]" id="empresa_razon_social" value="<%= @empresa.razon_social %>" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="">CUIT :</label>
+    <div class="controls">
+      <input type="text" name="empresa[cuit]" id="empresa_cuit" value="<%= @empresa.cuit %>" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="">Domicilio :</label>
+    <div class="controls">
+      <input type="text" name="empresa[domicilio]" id="empresa_domicilio" value="<%= @empresa.domicilio %>" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="">Localidad :</label>
+    <div class="controls">
+      <select name="empresa[localidad_id]" id="empresa_localidad_id">
+        <% @localidades.each do |l| %>
+          <option value="<%= l.id %>"><%= l.nombre %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  <button type="submit" class="btn">Confirmar</button>
+</form>

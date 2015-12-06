@@ -1,0 +1,33 @@
+<h1 style="display: inline">Empresa</h1>
+<a class="btn btn-default" href="/empresas/index" role="button">Volver Lista</a>
+
+<form style="margin-top: 25px" action="/empresas/create" method="post" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="">Razón Social :</label>
+    <div class="controls">
+      <input type="text" name="razon_social" id="empresa_razon_social" readonly value="<%= @empresa.razon_social%>"/>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="">CUIT :</label>
+    <div class="controls">
+      <input type="text" name="cuit" id="empresa_cuit" readonly value="<%= @empresa.cuit%>" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="">Domicilio :</label>
+    <div class="controls">
+      <input type="text" name="domicilio" id="empresa_domicilio" readonly value="<%= @empresa.domicilio%>" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="">Localidad :</label>
+    <div class="controls">
+      <select name="localidad_id" id="empresa_localidad_id" disabled>
+        <% @localidades.each do |l| %>
+          <option value="<%= l.id %>" <%= @empresa.localidad == l ? 'selected' : '' %>><%= l.nombre %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+</form>
