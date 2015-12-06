@@ -5,8 +5,28 @@
   <meta charset="utf-8">
   <title>Playground Sueldos</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
 </head>
 <body>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="/">Liquidador</a>
+      <ul class="nav">
+        <li><a href="/empresas/index">Empresas</a></li>
+        <li><a href="/seleccionar_empresa">Seleccionar Empresa</a></li>
+        <li><a href="/localidades/index">Localidades</a></li>
+        <% if @empresa %>
+          <li><a href="/empresa/<%= @empresa.id %>/empleados/index">Empleados</a></li>
+          <li><a href="/empresa/<%= @empresa.id %>/liquidar">Liquidar</a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <%= yield %>
+    </div>
+  </div>
 </body>
-  <%= yield %>
 </html>

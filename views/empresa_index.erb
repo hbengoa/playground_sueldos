@@ -1,5 +1,7 @@
-<h1>Listado de Empresas</h1>
-<table class="table-bordered table-condensed table-striped">
+<h1 style="display: inline">Listado de Empresas</h1>
+<a class="btn btn-default" href="/empresas/new" role="button">Nuevo</a>
+
+<table style="margin-top: 20px" class="table-bordered table-condensed table-striped">
   <thead>
     <tr>
       <th>Id</th>
@@ -7,6 +9,7 @@
       <th>CUIT</th>
       <th>Domicilio</th>
       <th>Localidad</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +20,14 @@
         <td><%= e.cuit %></td>
         <td><%= e.domicilio %></td>
         <td><%= e.localidad.nombre %></td>
+        <td>
+          <a class="btn btn-default" href="/empresas/<%= e.id %>" role="button">Ver</a>
+          <a class="btn btn-default" href="/empresas/<%= e.id %>/edit" role="button">Editar</a>
+          <form method="post" style="display: inline" action="/empresas/<%= e.id %>">
+            <input type="hidden" name="_method" value="delete">
+            <button class="btn btn-default" type="submit">Eliminar</button>
+          </form>
+      </td>
       </tr>
     <% end %>
   </tbody>
